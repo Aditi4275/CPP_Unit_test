@@ -13,6 +13,7 @@ RUN apt-get update -yqq \
     gcc-11 g++-11 openssl libssl-dev libjsoncpp-dev uuid-dev \
     zlib1g-dev libc-ares-dev postgresql-server-dev-all \
     libmariadb-dev libsqlite3-dev libhiredis-dev \
+    lcov \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8
 
@@ -23,31 +24,27 @@ ENV LANG=en_US.UTF-8 \
     CC=gcc-11 \
     CXX=g++-11 \
     AR=gcc-ar-11 \
-    RANLIB=gcc-ranlib-11 \
-    IROOT=/install
+    RANLIB=gcc-ranlib-11
 
-# Clone Drogon repository
-ENV DROGON_ROOT="$IROOT/drogon"
-RUN git clone https://github.com/drogonframework/drogon $DROGON_ROOT
-
-# Set the working directory to Drogon repository
-WORKDIR $DROGON_ROOT
-
-# Build Drogon
-RUN ./build.sh
+# Clone Drogon repository and build it separately
+ENV DROGON_ROOT="/usr/local/drogon"
+RUN git clone https://github.com/drogonframework/drogon $DROGON_ROOT \
+    && cd $DROGON_ROOT \
+    && git submodule update --init --recursive \
+    && mkdir build && cd build \
+    && cmake .. && make -j$(nproc) && make install
 
 # Copy source code for your application (from the local directory)
 COPY . /app
 
-# Install build tools for the app 
-
-RUN apt-get update && apt-get install -y cmake g++ git
+# Set working directory to /app for subsequent commands
+WORKDIR /app
 
 # Pull submodules for your application
 RUN git submodule update --init --recursive
 
-# Create build directory and build the project
-RUN mkdir -p /app/build && cd /app/build && cmake .. && make -j$(nproc)
+# Create build directory and build the project with coverage flags
+RUN mkdir -p /app/build && cd /app/build && cmake -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_EXE_LINKER_FLAGS="-lgcov" .. && make -j$(nproc)
 
 # Set CMD to the actual binary
 CMD ["./build/org_chart"]

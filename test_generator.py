@@ -4,8 +4,7 @@ import yaml
 import requests
 import time
 
-# Configure your LLM API key and endpoint
-LLM_API_KEY = "YOUR_API_KEY"  # Replace with your actual API key
+LLM_API_KEY = "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"
 LLM_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 def get_cpp_files(project_path):
@@ -41,7 +40,7 @@ def call_llm(messages, max_retries=5, initial_delay=10):
     for i in range(max_retries):
         try:
             data = {
-                "model": "deepseek/deepseek-r1-0528-qwen3-8b:free",
+                "model": "openrouter/cypher-alpha:free",
                 "messages": messages
             }
             response = requests.post(LLM_API_URL, headers=headers, json=data)

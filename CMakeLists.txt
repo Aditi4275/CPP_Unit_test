@@ -23,16 +23,16 @@ add_executable(${PROJECT_NAME} main.cc)
 
 # ##############################################################################
 # https://github.com/drogonframework/drogon
-add_subdirectory(third_party/drogon)
-target_link_libraries(${PROJECT_NAME} PRIVATE drogon)
+# add_subdirectory(third_party/drogon)
+# target_link_libraries(${PROJECT_NAME} PRIVATE drogon)
 
 # https://github.com/Thalhammer/jwt-cpp
-add_subdirectory(third_party/jwt-cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE jwt-cpp)
+# add_subdirectory(third_party/jwt-cpp)
+# target_link_libraries(${PROJECT_NAME} PRIVATE jwt-cpp)
 
 # https://github.com/trusch/libbcrypt
-add_subdirectory(third_party/libbcrypt)
-target_link_libraries(${PROJECT_NAME} PRIVATE bcrypt)
+# add_subdirectory(third_party/libbcrypt)
+# target_link_libraries(${PROJECT_NAME} PRIVATE bcrypt)
 
 # and comment out the following lines
 find_package(Drogon CONFIG REQUIRED)
@@ -75,9 +75,3 @@ target_sources(${PROJECT_NAME}
 # ##############################################################################
 
 add_subdirectory(test)
-
-# add_executable(${PROJECT_NAME}_test test/test_main.cc)
-
-# target_link_libraries(${PROJECT_NAME}_test PRIVATE drogon)
-
-# ParseAndAddDrogonTests(${PROJECT_NAME}_test)

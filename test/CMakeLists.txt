@@ -5,4 +5,4 @@ add_executable(${PROJECT_NAME} test_main.cc test_controllers.cc)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE drogon)
 
-ParseAndAddDrogonTests(${PROJECT_NAME})
+# ParseAndAddDrogonTests(${PROJECT_NAME})
