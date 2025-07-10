@@ -26,14 +26,6 @@ ENV LANG=en_US.UTF-8 \
     AR=gcc-ar-11 \
     RANLIB=gcc-ranlib-11
 
-# Clone Drogon repository and build it separately
-ENV DROGON_ROOT="/usr/local/drogon"
-RUN git clone https://github.com/drogonframework/drogon $DROGON_ROOT \
-    && cd $DROGON_ROOT \
-    && git submodule update --init --recursive \
-    && mkdir build && cd build \
-    && cmake .. && make -j$(nproc) && make install
-
 # Copy source code for your application (from the local directory)
 COPY . /app
 
