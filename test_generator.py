@@ -4,7 +4,7 @@ import yaml
 import requests
 import time
 
-LLM_API_KEY = "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"
+LLM_API_KEY = "API-KEY"
 LLM_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 def get_cpp_files(project_path):
